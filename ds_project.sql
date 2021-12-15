@@ -90,10 +90,8 @@ CREATE TABLE `order` (
   `member_id` int(11) NOT NULL,
   `coupon_id` int(11) DEFAULT NULL,
   `product_id` int(11) NOT NULL,
-  `cooperation_id` int(11) DEFAULT NULL,
-  `quantity` int(11) NOT NULL,
+  `quantity` int(11) not null,
   `order_date` datetime NOT NULL,
-  `export_date` datetime NOT NULL,
   `arrive_date` datetime NOT NULL,
   `payment_method` int(11) NOT NULL,
   `status` int(11) NOT NULL,
@@ -126,12 +124,11 @@ CREATE TABLE `product` (
 -- 資料表結構 `shopping_cart`
 --
 
-CREATE TABLE `shopping_cart` (
+  CREATE TABLE `shopping_cart` (
   `member_id` int(11) NOT NULL,
   `product_id` int(11) NOT NULL,
   `quantity` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
 --
 -- 已傾印資料表的索引
 --
@@ -168,27 +165,13 @@ ALTER TABLE `member`
 --
 -- 資料表索引 `order`
 --
-ALTER TABLE `order`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `member_id` (`member_id`),
-  ADD KEY `coupon_id` (`coupon_id`),
-  ADD KEY `product_id` (`product_id`),
-  ADD KEY `cooperation_id` (`cooperation_id`);
-
---
 -- 資料表索引 `product`
 --
 ALTER TABLE `product`
   ADD PRIMARY KEY (`id`),
   ADD UNIQUE KEY `product_name` (`product_name`);
 
---
 -- 資料表索引 `shopping_cart`
---
-ALTER TABLE `shopping_cart`
-  ADD PRIMARY KEY (`member_id`),
-  ADD KEY `product_id` (`product_id`);
-
 --
 -- 在傾印的資料表使用自動遞增(AUTO_INCREMENT)
 --
@@ -235,21 +218,7 @@ ALTER TABLE `import`
   ADD CONSTRAINT `import_ibfk_2` FOREIGN KEY (`product_id`) REFERENCES `product` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
--- 資料表的限制式 `order`
---
-ALTER TABLE `order`
-  ADD CONSTRAINT `order_ibfk_1` FOREIGN KEY (`member_id`) REFERENCES `member` (`IDSN`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `order_ibfk_2` FOREIGN KEY (`coupon_id`) REFERENCES `coupon` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `order_ibfk_3` FOREIGN KEY (`product_id`) REFERENCES `product` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `order_ibfk_4` FOREIGN KEY (`cooperation_id`) REFERENCES `cooperation` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
---
--- 資料表的限制式 `shopping_cart`
---
-ALTER TABLE `shopping_cart`
-  ADD CONSTRAINT `shopping_cart_ibfk_1` FOREIGN KEY (`member_id`) REFERENCES `member` (`IDSN`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `shopping_cart_ibfk_2` FOREIGN KEY (`product_id`) REFERENCES `product` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
-COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
