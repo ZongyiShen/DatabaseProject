@@ -16,9 +16,9 @@ const MemberModifyMethod = require('../controllers/modify_controller');
 
 memberModifyMethod = new MemberModifyMethod();
 
-router.post('/userRegister', memberModifyMethod.postRegister);
+router.post('/api/userRegister', memberModifyMethod.postRegister);
 
-router.post('/login', memberModifyMethod.postLogin);
+router.post('/api/login', memberModifyMethod.postLogin);
 
 router.put('/update', memberModifyMethod.postUpdate);
 

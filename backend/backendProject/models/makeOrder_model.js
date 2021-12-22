@@ -55,6 +55,31 @@ module.exports = function newOrder(Data) {
                                 return;
                             }
                         })
+                        db.query('SELECT * FROM product WHERE product_id = ?', order.product_id, function (err, rows) {
+                            if (err) {
+                                result.status = "尋找失敗。"
+                                result.err = "伺服器錯誤，請稍後在試！"
+                                reject(result);
+                                return;
+                            }
+                            let result = {};
+                            Data = {
+                                id: parseInt(order.product_id),
+                                storage: parseInt(rows[0].storage) - parseInt(order.quantity)
+                            }
+                            db.query('UPDATE proudct SET ? where id = ?', [Data, Data.id], function (err, rows) {
+                                if (err) {
+                                    console.log(err);
+                                    result.status = "購物車資料更新失敗。"
+                                    result.err = "伺服器錯誤，請稍後在試！"
+                                    reject(result);
+                                    return;
+                                }
+                                result.status = "商品資料更新成功。"
+                                result.UpdateData = Data;
+                                resolve(result)
+                            })
+                        })
                     });
                 })
                 result.status = "成功建立訂單。";

@@ -5,7 +5,7 @@ const GetProduct = require('../controllers/get_controller');
 
 getProduct = new GetProduct();
 
-router.get('/product', getProduct.getAllProduct);
+router.get('/api/product', getProduct.getAllProduct);
 
 router.get('/shoppingcart', getProduct.getShoppingcart);
 

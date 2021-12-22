@@ -14,6 +14,19 @@ var app = express();
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'hjs');
+// 解決跨域問題
+
+const cors = require('cors');
+app.use(cors({
+  origin: '*',
+  methods: 'GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS',
+}));
+app.all('*', function (req, res, next) {
+  res.header('Access-Control-Allow-Origin', 'http://192.168.212.108:8080');
+  res.header('Access-Control-Allow-Headers', 'Content-Type');
+  res.header('Access-Control-Allow-Methods', 'GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS');
+  next();
+});
 
 app.use(logger('dev'));
 app.use(express.json());

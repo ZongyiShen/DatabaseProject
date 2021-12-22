@@ -16,8 +16,6 @@ module.exports = class Member {
     postRegister(req, res, next) {
         // 獲取client端資料
         const memberData = {
-
-            IDSN: req.body.IDSN,
             name: req.body.name,
             username: req.body.username,
             phone: req.body.phone,
@@ -72,13 +70,13 @@ module.exports = class Member {
                 const token = jwt.sign({
                     algorithm: 'HS256',
                     exp: Math.floor(Date.now() / 1000) + (60 * 60), // token一個小時後過期。
-                    data: rows[0].IDSN
+                    data: rows[0].id
                 }, config.secret);
                 res.setHeader('token', token);
                 res.json({
                     result: {
                         status: "登入成功。",
-                        loginMember: "歡迎 " + rows[0].IDSN + " 的登入！",
+                        loginMember: "歡迎 " + rows[0].username + " 的登入！",
                     }
                 })
             }
@@ -102,7 +100,8 @@ module.exports = class Member {
                         }
                     })
                 } else {
-                    const IDSN = tokenResult;
+                    console.log(tokenResult);
+                    const id = tokenResult;
 
                     // 進行加密
                     //const password = encryption(req.body.password);
@@ -111,7 +110,7 @@ module.exports = class Member {
                         name: req.body.name,
                         password: req.body.password
                     }
-                    updateAction(IDSN, memberUpdateData).then(result => {
+                    updateAction(memberUpdateData, id).then(result => {
                         res.json({
                             result: result
                         })
@@ -126,70 +125,138 @@ module.exports = class Member {
     }
 
     postProduct(req, res, next) {
-        // 獲取client端資料
-        const Data = {
-            member_id: req.body.member_id,
-            product_id: req.body.product_id,
-            quantity: req.body.quantity
+        const token = req.headers['token'];
+        //確定token是否有輸入
+        if (check.checkNull(token) === true) {
+            res.json({
+                err: "請輸入token！"
+            })
+        } else if (check.checkNull(token) === false) {
+            verify(token).then(tokenResult => {
+                if (tokenResult === false) {
+                    res.json({
+                        result: {
+                            status: "token錯誤。",
+                            err: "請重新登入。"
+                        }
+                    })
+                } else {
+                    console.log(tokenResult);
+                    const id = tokenResult;
+
+                    // 進行加密
+                    //const password = encryption(req.body.password);
+
+                    const Data = {
+                        member_id: id,
+                        product_id: req.body.product_id,
+                        quantity: req.body.quantity
+                    }
+                    // 將資料寫入資料庫
+                    toShopping(Data).then(result => {
+                        // 若寫入成功則回傳
+                        res.json({
+                            result: result
+                        })
+                    }, (err) => {
+                        // 若寫入失敗則回傳
+                        res.json({
+                            err: err
+                        })
+                    })
+                }
+            })
         }
-        // 將資料寫入資料庫
-        toShopping(Data).then(result => {
-            // 若寫入成功則回傳
-            res.json({
-                result: result
-            })
-        }, (err) => {
-            // 若寫入失敗則回傳
-            res.json({
-                err: err
-            })
-        })
     }
 
     postModifyProduct(req, res, next) {
+        const token = req.headers['token'];
+        //確定token是否有輸入
+        if (check.checkNull(token) === true) {
+            res.json({
+                err: "請輸入token！"
+            })
+        } else if (check.checkNull(token) === false) {
+            verify(token).then(tokenResult => {
+                if (tokenResult === false) {
+                    res.json({
+                        result: {
+                            status: "token錯誤。",
+                            err: "請重新登入。"
+                        }
+                    })
+                } else {
+                    console.log(tokenResult);
+                    const id = tokenResult;
 
-        // 進行加密
-        //const password = encryption(req.body.password);
+                    // 進行加密
+                    //const password = encryption(req.body.password);
 
-        const UpdateData = {
-            member_id: req.body.member_id,
-            product_id: req.body.product_id,
-            quantity: req.body.quantity
+                    const UpdateData = {
+                        member_id: id,
+                        product_id: req.body.product_id,
+                        quantity: req.body.quantity
+                    }
+                    modifyShoppingcart(UpdateData).then(result => {
+                        res.json({
+                            result: result
+                        })
+                    }, (err) => {
+                        res.json({
+                            result: err
+                        })
+                    })
+                }
+            })
         }
-        modifyShoppingcart(UpdateData).then(result => {
-            res.json({
-                result: result
-            })
-        }, (err) => {
-            res.json({
-                result: err
-            })
-        })
     }
 
+
     postOrder(req, res, next) {
-        // 獲取client端資料
-        // 將資料寫入資料庫
-        let Data = {
-            member_id: req.body.member_id,
-            coupon_id: req.body.coupon_id,
-            order_date: onTime(),
-            arrive_date: req.body.arrive_date,
-            payment_method: req.body.payment_method,
-            address: req.body.address
+        const token = req.headers['token'];
+        //確定token是否有輸入
+        if (check.checkNull(token) === true) {
+            res.json({
+                err: "請輸入token！"
+            })
+        } else if (check.checkNull(token) === false) {
+            verify(token).then(tokenResult => {
+                if (tokenResult === false) {
+                    res.json({
+                        result: {
+                            status: "token錯誤。",
+                            err: "請重新登入。"
+                        }
+                    })
+                } else {
+                    console.log(tokenResult);
+                    const id = tokenResult;
+                    // 獲取client端資料
+                    // 將資料寫入資料庫
+                    let Data = {
+                        member_id: id,
+                        coupon_id: req.body.coupon_id,
+                        order_date: onTime(),
+                        arrive_date: req.body.arrive_date,
+                        payment_method: req.body.payment_method,
+                        address: req.body.address
+                    }
+                    //let member_id = req.body.member_id;
+                    makeOrder(Data).then(result => {
+                        // 若寫入成功則回傳
+                        res.json({
+                            result: result
+                        })
+                    }, (err) => {
+                        // 若寫入失敗則回傳
+                        res.json({
+                            err: err
+                        })
+                    })
+
+                }
+            })
         }
-        //let member_id = req.body.member_id;
-        makeOrder(Data).then(result => {
-            // 若寫入成功則回傳
-            res.json({
-                result: result
-            })
-        }, (err) => {
-            // 若寫入失敗則回傳
-            res.json({
-                err: err
-            })
-        })
     }
 
 }
