@@ -5,10 +5,10 @@
                 <span class="navbar-toggler-icon"></span>
             </button>
             <router-link class="navbar-brand" to="/">
-                <img src="../assets/shoe_icon_sm.png" alt="珍室鞋樓">
+            <h1><img src="../assets/shoe_icon_sm.png" alt="珍室鞋樓">珍室鞋樓</h1>
             </router-link>
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                <span class="navbar-text">珍室鞋樓</span>
+                
                 <ul class="navbar-nav mx-auto mb-2 mb-lg-0">
                     <li class="nav-item">
                         <router-link to="product-list" class="nav-link rem-1-5">男鞋</router-link>

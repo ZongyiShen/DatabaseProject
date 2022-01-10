@@ -5,10 +5,9 @@
                 <span class="navbar-toggler-icon"></span>
             </button>
             <router-link class="navbar-brand" to="/">
-                <img src="../assets/shoe_icon_sm.png" alt="珍室鞋樓">
+            <h1><img src="../assets/shoe_icon_sm.png" alt="珍室鞋樓">珍室鞋樓</h1>                
             </router-link>
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                <span class="navbar-text">珍室鞋樓</span>
             </div>
         </div>
     </nav>
