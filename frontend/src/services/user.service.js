@@ -12,20 +12,21 @@ const services = {
     AddCreditCard,
     ChangePassword
 }
-function login(account, password){
+function login(email, password){
     const url = prefix + "/login";
 
     return http.post(url, {
-        account,
+        email,
         password
     });
 }
-function register(email, account, password, name){
-    const url = prefix + "/register";
+function register(email, username, phone, password, name){
+    const url = prefix + "/userRegister";
 
     return http.post(url, {
         email,
-        account,
+        username,
+        phone,
         password,
         name
     });
@@ -77,12 +78,12 @@ function AddCreditCard(cardNumber, securityCode, year, month){
         month
     });
 }
-function ChangePassword(oldPassword, newPassword){
-    const url = prefix + "/password";
+function ChangePassword(oldPassword, password){
+    const url = prefix + "/update";
 
     return http.put(url, {
         oldPassword,
-        newPassword
+        password
     });
 }
 

@@ -23,7 +23,7 @@ export default {
     },
     mounted() {
         HelloWorldService.getProduct().then(data => {
-            this.productArray = data.data.result;
+            this.productArray = data.result;
         }).catch((error) => {
             console.log("err",error);
         })

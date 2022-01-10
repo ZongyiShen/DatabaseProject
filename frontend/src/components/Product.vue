@@ -1,7 +1,7 @@
 <template>
     <div class="col-lg-4 m-3 p-3 rounded">
         <div class="row justify-content-center">
-            <img class="mx-auto" src="https://picsum.photos/400?1" />
+            <img class="productImg" :src="require('@/assets/'+block.id+'.png')" />
             <div class="container">
                 <div class="row">
                     <div class="col-6">
@@ -19,7 +19,7 @@
 <script>
 export default {
     props: {
-        block: Object
+        block: Object,
     },
 }
 </script>
@@ -50,8 +50,9 @@ export default {
     text-align: center;
 }
 
-.item_price::before{
+.item_price::before {
     content: "$";
     font-size: 1rem;
 }
+
 </style>

@@ -2,7 +2,7 @@
   <div class="container rounded" style="height:700px;">
     <div class="row justify-content-center">
       <div class="col-6 my-custom">
-        <h3 style="text-align: center">會員</h3>
+        <h2 style="text-align: center">會員</h2>
       </div>
       <div class="col-3 my-custom">
         <form class="d-flex" prop="account">
@@ -14,7 +14,7 @@
     </div>
     <div class="row justify-content-center">
       <div class="col-6 my-custom">
-        <h3 style="text-align: center">密碼</h3>
+        <h2 style="text-align: center">密碼</h2>
       </div>
       <div class="col-3 my-custom">
         <form class="d-flex" prop="pass">
@@ -25,8 +25,19 @@
       </div>
     </div>
     <div class="row justify-content-center">
-      <button @click="login(dynamicValidateForm.account, ruleForm.pass)"><i>登入</i></button>
+      <div class="col-3 row justify-content-center">
+        <button @click="login(dynamicValidateForm.account, ruleForm.pass)">登入</button>
+        </div>
+      <div class="col-3 row justify-content-center">
+        <router-link to="/identify/register" class="register">
+        <button>註冊</button>
+        </router-link>
+      </div>
     </div>
+      
+    
+    
+    
   </div>
 </template>
 

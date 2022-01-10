@@ -1,6 +1,6 @@
 import identifyBar from "../components/Identifybar.vue"
-import login from "../components/Login.vue"
-import register from "../components/Register.vue";
+import login from "../components/login.vue"
+import register from "../components/register.vue";
 // import retrievePassword from "../components/user/retrievepassword/retrievePassword.vue"
 // import resetPassword from "../components/user/resetpassword/resetPassword.vue"
 
