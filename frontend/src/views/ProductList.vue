@@ -1,5 +1,4 @@
 <template>
-    <navbar />
     <div class="container">
         <h1>商品列表</h1>
         <hr>
@@ -12,7 +11,6 @@
 </template>
 
 <script>
-import Navbar from '../components/Navbar';
 import Product from '../components/Product';
 import HelloWorldService from '../services/helloworld.service'
 
@@ -31,7 +29,6 @@ export default {
         })
     },
     components: {
-        Navbar,
         Product,
     },
     name: 'app',
