@@ -1,18 +1,28 @@
 <template>
-    <div class="row justify-content-center">
-        <button @click="showSelect=0"><span>會員資料</span></button>
-        <button @click="showSelect=1"><span>修改密碼</span></button>
-        <button @click="showSelect=2"><span>管理訂單</span></button>
+    <div class="row ">
+    <div class="col-md-4 mt-6 mx6">
+        <button @click="showSelect=0"><span>會員資料</span></button><p></p>
+        <button @click="showSelect=1"><span>修改密碼</span></button><p></p>
+        <button @click="showSelect=2"><span>管理訂單</span></button><p></p>
         <button class="logoutButton" @click="logout()"><span>登出</span></button>
     </div>
-    <div class="container" v-if="showSelect === 0">
-        <div class="row justify-content-center">
-            {{ memberDetail }}
+    <div class="col-md-8 container mt-5" v-if="showSelect === 0">
+        <div class="row justify-content-center ">
+            <ul class="list-group align-items-center color">
+            <li class="list-group-item">姓名：{{ memberDetail.name }}</li>
+            <li class="list-group-item">使用者名稱：{{ memberDetail.username }}</li>
+            <li class="list-group-item">電話號碼：{{ memberDetail.phone}}</li>
+            <li class="list-group-item">電子信箱：{{ memberDetail.email }}</li>
+            </ul>
+            
         </div>
     </div>
-    <div class="container" v-else-if="showSelect === 1">
-        <div class="row justify-content-center">
-            <h1 style="text-align: center">修改會員密碼</h1>
+    <div class="col-md-8 container mt-5" v-else-if="showSelect === 1">
+        <div class="row justify-content-center mt-5">
+            <div class="color">
+                <h1 style="text-align: center ">修改會員密碼</h1>
+            </div>
+            
             <div class="row justify-content-center">
                 <div>
                     <div class="row justify-content-center">
@@ -46,7 +56,7 @@
             </div>
         </div>
     </div>
-    <div class="container" v-if="showSelect === 2">
+    <div class="col-md-8 container mt-5" v-if="showSelect === 2">
         {{ productArray }}
         <div class="row justify-content-center">
             <div v-for="item in orderArray" :key="item.id" >
@@ -56,6 +66,7 @@
                 <span></span>
             </div>
         </div>
+    </div>
     </div>
 </template>
 
@@ -129,12 +140,26 @@
     
 </script>
 <style scoped>
+.list-group-item{
+    font-size: 40px;
+    size: 100px;
+    margin-top: 5%;
+}
 .container{
-    margin-top: 100px;
+    width:1000px;
     border-style: solid;
     border-color: #FFC0AC;
+    
+}
+.mx6{
+    padding-left: 400px;
+    margin-top: 150px;
+    margin-bottom: 100px;
 }
 .col-3{
+    color:#FFCBAC;
+}
+.color{
     color:#FFCBAC;
 }
 .my-custom{
