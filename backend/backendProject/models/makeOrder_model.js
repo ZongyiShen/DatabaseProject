@@ -55,32 +55,21 @@ module.exports = function newOrder(Data) {
                                 return;
                             }
                         })
-                        db.query('SELECT * FROM product WHERE product_id = ?', order.product_id, function (err, rows) {
+                    });
+                    getProductStorage(element.product_id).then(storage => {
+                        db.query('UPDATE product set storage = ? where id = ?', [storage - element.quantity, element.product_id], function (err, rows) {
                             if (err) {
-                                result.status = "尋找失敗。"
+                                console.log(err);
+                                result.status = "購物車資料更新失敗。"
                                 result.err = "伺服器錯誤，請稍後在試！"
                                 reject(result);
                                 return;
                             }
-                            let result = {};
-                            Data = {
-                                id: parseInt(order.product_id),
-                                storage: parseInt(rows[0].storage) - parseInt(order.quantity)
+                            else {
+                                console.log(storage, element.product_id);
                             }
-                            db.query('UPDATE proudct SET ? where id = ?', [Data, Data.id], function (err, rows) {
-                                if (err) {
-                                    console.log(err);
-                                    result.status = "購物車資料更新失敗。"
-                                    result.err = "伺服器錯誤，請稍後在試！"
-                                    reject(result);
-                                    return;
-                                }
-                                result.status = "商品資料更新成功。"
-                                result.UpdateData = Data;
-                                resolve(result)
-                            })
                         })
-                    });
+                    })
                 })
                 result.status = "成功建立訂單。";
                 result.order_id = id + 1;
@@ -103,6 +92,20 @@ const getProductPrice = (productID) => {
                 return;
             }
             resolve(rows[0].price);
+        })
+    })
+}
+
+//取得商品storage
+const getProductStorage = (productID) => {
+    return new Promise((resolve, reject) => {
+        db.query('SELECT storage FROM product WHERE id = ?', productID, function (err, rows) {
+            if (err) {
+                console.log(err);
+                reject(err);
+                return;
+            }
+            resolve(rows[0].storage);
         })
     })
 }
