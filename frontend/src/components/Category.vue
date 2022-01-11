@@ -26,12 +26,17 @@ export default {
             return this.$route.params.category
         }
     },
-    updated() {
+    watch: {
+        category: function () {
+            this.$router.go(0);
+        }
+    },
+    mounted() {
         HelloWorldService.getProductByCategory(this.$route.params.category).then(data => {
             this.productArray = data.result;
         }).catch((error) => {
             console.log("err",error);
-        })
+        });
     },
     components: {
         Product,

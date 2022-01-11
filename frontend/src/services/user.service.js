@@ -10,7 +10,10 @@ const services = {
     getCreditCard,
     DeleteCreditCard,
     AddCreditCard,
-    ChangePassword
+    ChangePassword,
+    postShoppingCart,
+    updateShoppingCart,
+    makeOrder,
 }
 function login(email, password){
     const url = prefix + "/login";
@@ -79,6 +82,34 @@ function ChangePassword(oldPassword, password){
     return http.put(url, {
         oldPassword,
         password
+    });
+}
+function postShoppingCart(member_id, product_id, quantity){
+    const url = prefix + "/shopping_cart";
+
+    return http.post(url, {
+        member_id,
+        product_id,
+        quantity
+    });
+}
+function updateShoppingCart(member_id, product_id, quantity){
+    const url = prefix + "/update_shopping_cart";
+
+    return http.post(url, {
+        member_id,
+        product_id,
+        quantity
+    });
+}
+function makeOrder(member_id, arrive_date, payment_method, address){
+    const url = prefix + "/order";
+
+    return http.post(url, {
+        member_id,
+        arrive_date,
+        payment_method,
+        address
     });
 }
 

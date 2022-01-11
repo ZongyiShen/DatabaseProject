@@ -3,6 +3,7 @@ import registerService from '../services/user.service'
 export default {
     register,
     ChangePassword,
+    toCreditCardString,
     logout
 }
 
@@ -33,6 +34,12 @@ function ChangePassword(oldpassword, password){
             this.$router.push({path: "/identify"});
         }
     })
+}
+
+function toCreditCardString(product_method){
+    if(product_method == 0) {
+        return "信用卡付款"
+    }
 }
 
 function logout(){
