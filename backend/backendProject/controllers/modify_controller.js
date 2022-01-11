@@ -4,6 +4,7 @@ const updateAction = require('../models/update_model');
 const modifyShoppingcart = require('../models/modify_shopping_cart_model');
 const toShopping = require('../models/shoppingcart_model');
 const toImport = require('../models/import_model');
+const deleteOrder = require('../models/delete_order_model');
 const makeOrder = require('../models/makeOrder_model');
 const verify = require('../models/verification');
 const Check = require('../service/member_check');
@@ -311,7 +312,46 @@ module.exports = class Modify {
             })
         }
     }
-
+    deleteOrder(req, res, next) {
+        const token = req.headers['token'];
+        //確定token是否有輸入
+        if (check.checkNull(token) === true) {
+            res.json({
+                err: "請輸入token！"
+            })
+        } else if (check.checkNull(token) === false) {
+            verify(token).then(tokenResult => {
+                if (tokenResult === false) {
+                    res.json({
+                        result: {
+                            status: "token錯誤。",
+                            err: "請重新登入。"
+                        }
+                    })
+                } else {
+                    console.log(tokenResult);
+                    const id = tokenResult;
+                    // 獲取client端資料
+                    // 將資料寫入資料庫
+                    let Data = {
+                        order_id: req.body.order_id
+                    }
+                    //let member_id = req.body.member_id;
+                    deleteOrder(Data).then(result => {
+                        // 若寫入成功則回傳
+                        res.json({
+                            result: "成功刪除訂單"
+                        })
+                    }, (err) => {
+                        // 若寫入失敗則回傳
+                        res.json({
+                            err: err
+                        })
+                    })
+                }
+            })
+        }
+    }
 }
 
 //取得現在時間，並將格式轉成YYYY-MM-DD HH:MM:SS

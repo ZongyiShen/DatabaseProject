@@ -2,6 +2,7 @@ const db = require('./connection_db');
 
 module.exports = function getOrder(memberData) {
     let result = {};
+    var order = [];
     return new Promise((resolve, reject) => {
 
         // 找尋
@@ -16,3 +17,4 @@ module.exports = function getOrder(memberData) {
         });
     });
 }
+

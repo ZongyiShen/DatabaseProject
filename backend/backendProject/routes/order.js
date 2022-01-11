@@ -11,4 +11,6 @@ router.get('/api/getOrder', getMethod.getOrderById);
 
 router.post('/api/user/order', memberModifyMethod.postOrder);
 
+router.post('/api/user/deleteOrder', memberModifyMethod.deleteOrder);
+
 module.exports = router;

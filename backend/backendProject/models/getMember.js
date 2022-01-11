@@ -13,7 +13,7 @@ module.exports = function getMemberData(ID) {
                 return;
             }
             // 若資料庫部分沒問題，則回傳全部產品資料。
-            resolve(rows);
+            resolve(rows[0]);
         })
     })
 }
