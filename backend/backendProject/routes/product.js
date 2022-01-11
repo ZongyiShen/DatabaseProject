@@ -1,12 +1,21 @@
 var express = require('express');
 var router = express.Router();
 
-const GetProduct = require('../controllers/get_controller');
+const GetMethod = require('../controllers/get_controller');
+const MemberModifyMethod = require('../controllers/modify_controller');
 
-getProduct = new GetProduct();
+getMethod = new GetMethod();
+memberModifyMethod = new MemberModifyMethod();
 
-router.get('/api/product', getProduct.getAllProduct);
+router.get('/api/product', getMethod.getAllProduct);
 
-router.get('/shoppingcart', getProduct.getShoppingcart);
+router.post('/api/productCategory/', getMethod.getSomeProduct);
 
+router.get('/api/shoppingcart', getMethod.getShoppingcart);
+router.put('/api/user/update_shopping_cart', memberModifyMethod.postModifyProduct);
+
+router.post('/api/user/shopping_cart', memberModifyMethod.postShoppingProduct);
+
+router.post('/api/productInfo', getMethod.getOneProduct);
+router.post('/api/addProduct', memberModifyMethod.postAddProduct);
 module.exports = router;

@@ -2,6 +2,7 @@ import registerService from '../services/user.service'
 
 export default {
     register,
+    changeShow,
     ChangePassword,
     logout
 }
@@ -18,6 +19,13 @@ function register(email, account, phone, password, name){
             
     })
 }
+
+function changeShow(isShow){
+    isShow = !isShow;
+    console.log(isShow);
+    return isShow;
+}
+
 function ChangePassword(oldpassword, password){
     registerService.ChangePassword(oldpassword, password).then(data =>{
         if((data.result.status=="會員資料更新成功。")){
