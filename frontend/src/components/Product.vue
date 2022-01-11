@@ -1,7 +1,7 @@
 <template>
     <div class="col-lg-4 m-3 p-3 rounded">
         <div class="row justify-content-center">
-            <img class="productImg" :src="require('@/assets/'+block.id+'.png')" />
+            <img class="productImg" :src="require('@/assets/'+block.product_name+'.png')" />
             <div class="container">
                 <div class="row">
                     <div class="col-6">
