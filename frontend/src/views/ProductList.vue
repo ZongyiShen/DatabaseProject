@@ -1,11 +1,11 @@
 <template>
     <div class="container">
-        <h1>商品列表</h1>
+        <h1>商品列表 | 全部商品</h1>
         <hr>
     </div>
     <div class="container-fluid">
         <div class="row justify-content-center" id="productBlock">
-            <product v-for="item in productArray" :block="item" :key="item.id"></product>
+            <product v-for="item in productArray" :block="item" :key="item.id" ></product>
         </div>
     </div>
 </template>

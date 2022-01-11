@@ -12,10 +12,10 @@ function getProduct(){
     return http.get(url)
 }
 
-function getProductById(id){
+function getProductById(product_id){
     let url = prefix + "Info";
     return http.post(url, {
-        id,
+        product_id,
     });
 }
 

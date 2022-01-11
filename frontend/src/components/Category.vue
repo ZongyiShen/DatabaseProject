@@ -1,6 +1,6 @@
 <template>
     <div class="container">
-        <h1>商品列表/{{ category }}</h1>
+        <h1>商品列表 | {{ category }}</h1>
         <hr>
     </div>
     <div class="container-fluid">
@@ -26,7 +26,7 @@ export default {
             return this.$route.params.category
         }
     },
-    mounted() {
+    updated() {
         HelloWorldService.getProductByCategory(this.$route.params.category).then(data => {
             this.productArray = data.result;
         }).catch((error) => {

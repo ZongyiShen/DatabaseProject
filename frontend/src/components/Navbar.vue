@@ -11,7 +11,10 @@
                 
                 <ul class="navbar-nav mx-auto mb-2 mb-lg-0">
                     <li class="nav-item">
-                        <router-link to="/product-list" class="nav-link rem-1-5">男鞋</router-link>
+                        <router-link to="/product-list" class="nav-link rem-1-5">全部商品</router-link>
+                    </li>
+                    <li class="nav-item">
+                        <router-link to="/category/man" class="nav-link rem-1-5">男鞋</router-link>
                     </li>
                     <li class="nav-item">
                         <router-link :to="'/category/woman'" class="nav-link rem-1-5">女鞋</router-link>
