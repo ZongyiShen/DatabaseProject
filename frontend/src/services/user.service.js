@@ -5,8 +5,8 @@ const services = {
     login,
     register,
     resetPassword,
-    getInformation,
-    EditInformation,
+    getMemberData,
+    getOrderById,
     getCreditCard,
     DeleteCreditCard,
     AddCreditCard,
@@ -39,20 +39,15 @@ function resetPassword(email, account){
         account
     });
 }
-function getInformation(){
-    const url = prefix + "/information";
+function getMemberData(){
+    const url = prefix + "/memberData";
 
     return http.get(url);
 }
-function EditInformation(email, name, address, phone){
-    const url = prefix + "/information";
+function getOrderById(){
+    const url = "/getOrder";
 
-    return http.put(url,{
-        email,
-        name,
-        address,
-        phone
-    });
+    return http.get(url);
 }
 function getCreditCard(){
     const url = prefix + "/creditCard";

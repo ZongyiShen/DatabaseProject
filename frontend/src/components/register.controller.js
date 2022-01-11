@@ -2,10 +2,10 @@ import registerService from '../services/user.service'
 
 export default {
     register,
-    changeShow,
     ChangePassword,
     logout
 }
+
 
 function register(email, account, phone, password, name){
     registerService.register(email, account, phone, password, name).then(data =>{
@@ -18,12 +18,6 @@ function register(email, account, phone, password, name){
         }
             
     })
-}
-
-function changeShow(isShow){
-    isShow = !isShow;
-    console.log(isShow);
-    return isShow;
 }
 
 function ChangePassword(oldpassword, password){
@@ -40,6 +34,7 @@ function ChangePassword(oldpassword, password){
         }
     })
 }
+
 function logout(){
     if(confirm("確定登出?")){
         localStorage.removeItem("token");
