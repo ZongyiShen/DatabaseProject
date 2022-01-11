@@ -11,19 +11,19 @@
                 
                 <ul class="navbar-nav mx-auto mb-2 mb-lg-0">
                     <li class="nav-item">
-                        <router-link to="product-list" class="nav-link rem-1-5">男鞋</router-link>
+                        <router-link to="/product-list" class="nav-link rem-1-5">男鞋</router-link>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link rem-1-5">女鞋</a>
+                        <router-link :to="'/category/woman'" class="nav-link rem-1-5">女鞋</router-link>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link rem-1-5">童鞋</a>
+                        <router-link :to="'/category/child'" class="nav-link rem-1-5">童鞋</router-link>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link rem-1-5">運動鞋</a>
+                        <router-link :to="'/category/sport'" class="nav-link rem-1-5">運動鞋</router-link>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link rem-1-5">休閒鞋</a>
+                        <router-link :to="'/category/relax'" class="nav-link rem-1-5">休閒鞋</router-link>
                     </li>
                 </ul>
                 <form class="d-flex">

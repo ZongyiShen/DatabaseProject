@@ -23,6 +23,10 @@ const routes = [
       {
         path: '/member',
         component: () => import('../views/Member.vue')
+      },
+      {
+        path: '/category/:category',
+        component: () => import('../components/Category.vue')
       }
     ]
   },
@@ -30,7 +34,7 @@ const routes = [
 ]
 
 const router = createRouter({
-  history: createWebHashHistory(),
+  history: createWebHashHistory(process.env.BASE_URL),
   routes
 })
 

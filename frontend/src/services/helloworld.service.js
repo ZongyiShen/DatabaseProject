@@ -14,12 +14,17 @@ function getProduct(){
 
 function getProductById(id){
     let url = prefix + "Info";
-    return http.get({url, id});
+    return http.post(url, {
+        id,
+    });
 }
 
 function getProductByCategory(category){
     let url = prefix + "Category";
-    return http.get({url, category});
+
+    return http.post(url,{
+        category,
+    });
 }
 
 export default services;
