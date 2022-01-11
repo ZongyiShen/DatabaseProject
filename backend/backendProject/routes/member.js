@@ -2,30 +2,25 @@ var express = require('express');
 var router = express.Router();
 
 
-function toStringText(string) {
-    return '"' + string + '"';
-}
-
-
 router.post('/', function (req, res, next) {
     console.log(req.body.test)
     res.send(req.body.test);
 });
 
+const GetMethod = require('../controllers/get_controller');
 const MemberModifyMethod = require('../controllers/modify_controller');
 
+getMethod = new GetMethod();
 memberModifyMethod = new MemberModifyMethod();
 
-router.post('/api/userRegister', memberModifyMethod.postRegister);
+router.post('/api/user/userRegister', memberModifyMethod.postRegister);
 
-router.post('/api/login', memberModifyMethod.postLogin);
+router.post('/api/user/login', memberModifyMethod.postLogin);
 
-router.put('/update', memberModifyMethod.postUpdate);
+router.put('/api/user/update', memberModifyMethod.postUpdate);
 
-router.put('/update_shopping_cart', memberModifyMethod.postModifyProduct);
+router.get('/api/user/memberData', getMethod.getMemberData);
 
-router.post('/shopping_cart', memberModifyMethod.postProduct);
 
-router.post('/order', memberModifyMethod.postOrder);
 
 module.exports = router;

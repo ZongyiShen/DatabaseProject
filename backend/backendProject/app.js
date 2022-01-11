@@ -9,6 +9,7 @@ var logger = require('morgan');
 var memberRouter = require('./routes/member');
 var usersRouter = require('./routes/users');
 var productRouter = require('./routes/product');
+var orderRouter = require('./routes/order');
 var app = express();
 
 // view engine setup
@@ -22,7 +23,7 @@ app.use(cors({
   methods: 'GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS',
 }));
 app.all('*', function (req, res, next) {
-  res.header('Access-Control-Allow-Origin', 'http://192.168.212.108:8080');
+  res.header('Access-Control-Allow-Origin', '*');
   res.header('Access-Control-Allow-Headers', 'Content-Type');
   res.header('Access-Control-Allow-Methods', 'GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS');
   next();
@@ -38,6 +39,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 //app.use('/', indexRouter);
 app.use('/', memberRouter);
 app.use('/', productRouter);
+app.use('/', orderRouter);
 app.use('/users', usersRouter);
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
