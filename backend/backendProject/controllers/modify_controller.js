@@ -3,6 +3,7 @@ const loginAction = require('../models/login_model');
 const updateAction = require('../models/update_model');
 const modifyShoppingcart = require('../models/modify_shopping_cart_model');
 const toShopping = require('../models/shoppingcart_model');
+const toImport = require('../models/import_model');
 const makeOrder = require('../models/makeOrder_model');
 const verify = require('../models/verification');
 const Check = require('../service/member_check');
@@ -11,7 +12,7 @@ const jwt = require('jsonwebtoken')
 
 check = new Check();
 
-module.exports = class Member {
+module.exports = class Modify {
 
     postRegister(req, res, next) {
         // 獲取client端資料
@@ -76,7 +77,8 @@ module.exports = class Member {
                 res.json({
                     result: {
                         status: "登入成功。",
-                        loginMember: "歡迎 " + rows[0].username + " 的登入！",
+                        token: token,
+                        permission: rows[0].permission
                     }
                 })
             }
@@ -107,7 +109,7 @@ module.exports = class Member {
                     //const password = encryption(req.body.password);
 
                     const memberUpdateData = {
-                        name: req.body.name,
+                        oldPassword: req.body.oldPassword,
                         password: req.body.password
                     }
                     updateAction(memberUpdateData, id).then(result => {
@@ -124,7 +126,58 @@ module.exports = class Member {
         }
     }
 
-    postProduct(req, res, next) {
+    postAddProduct(req, res, next) {
+        const token = req.headers['token'];
+        //確定token是否有輸入
+        if (check.checkNull(token) === true) {
+            res.json({
+                err: "請輸入token！"
+            })
+        } else if (check.checkNull(token) === false) {
+            verify(token).then(tokenResult => {
+                if (tokenResult === false) {
+                    res.json({
+                        result: {
+                            status: "token錯誤。",
+                            err: "請重新登入。"
+                        }
+                    })
+                } else {
+                    console.log(tokenResult);
+                    const id = tokenResult;
+
+                    // 進行加密
+                    //const password = encryption(req.body.password);
+
+                    const Data = {
+                        product_name: req.body.product_name,
+                        size: req.body.size,
+                        price: req.body.price,
+                        storage: req.body.storage,
+                        description: req.body.description,
+                        status: "1",
+                        category: req.body.category,
+                        publish_date: onTime(),
+                        modified_date: onTime()
+                    }
+                    // 將資料寫入資料庫
+                    toImport(Data).then(result => {
+                        // 若寫入成功則回傳
+                        res.json({
+                            result: result
+                        })
+                    }, (err) => {
+                        // 若寫入失敗則回傳
+                        res.json({
+                            err: err
+                        })
+                    })
+                }
+            })
+        }
+    }
+
+    postShoppingProduct(req, res, next) {
         const token = req.headers['token'];
         //確定token是否有輸入
         if (check.checkNull(token) === true) {
@@ -237,7 +290,7 @@ module.exports = class Member {
                         member_id: id,
                         coupon_id: req.body.coupon_id,
                         order_date: onTime(),
-                        arrive_date: req.body.arrive_date,
+                        arrive_date: onTime2(14),
                         payment_method: req.body.payment_method,
                         address: req.body.address
                     }
@@ -263,6 +316,7 @@ module.exports = class Member {
 
 //取得現在時間，並將格式轉成YYYY-MM-DD HH:MM:SS
 const onTime = () => {
+    let month_list = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31]
     const date = new Date();
     const mm = date.getMonth() + 1;
     const dd = date.getDate();
@@ -270,6 +324,27 @@ const onTime = () => {
     const mi = date.getMinutes();
     const ss = date.getSeconds();
 
+    return [date.getFullYear(), "-" +
+        (mm > 9 ? '' : '0') + mm, "-" +
+        (dd > 9 ? '' : '0') + dd, " " +
+        (hh > 9 ? '' : '0') + hh, ":" +
+        (mi > 9 ? '' : '0') + mi, ":" +
+        (ss > 9 ? '' : '0') + ss
+    ].join('');
+}
+
+const onTime2 = (day) => {
+    let month_list = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31]
+    const date = new Date();
+    const mm = date.getMonth() + 1;
+    const dd = date.getDate() + day;
+    const hh = date.getHours();
+    const mi = date.getMinutes();
+    const ss = date.getSeconds();
+    if (dd > month_list[mm - 1]) {
+        mm += 1;
+        dd = dd - month_list[mm - 1];
+    }
     return [date.getFullYear(), "-" +
         (mm > 9 ? '' : '0') + mm, "-" +
         (dd > 9 ? '' : '0') + dd, " " +
