@@ -1,14 +1,31 @@
 <template>
-    <span>{{ product }}</span>
-    <button @click="del(index)" :disabled="quantity<=1">-</button>
-    <h1>{{ product.product_name }}</h1>
-    <h1>{{ memberId }}</h1>
-    <h1>{{ productId }}</h1>
-    <button @click="del(index)" :disabled="quantity<=1">-</button>
-    <span>{{ quantity }}</span>
-    <button @click="add(index)" :disabled="quantity>=product.storage">+</button>
-    <button @click="PutProducToShoppingCart(memberId, productId, quantity)"></button>
-
+    
+    <div class="row">
+        <div class="container">
+            <div class="justify-content-center mt-3 mb-3">
+                <h1 style="text-align: center ">{{ product.product_name }}</h1>
+                <h2 style="text-align: center ">尺寸:{{ product.size }}cm</h2>
+                <h2 style="text-align: center ">描述:{{ product.description }}</h2>
+                <h2 style="text-align: center ">價格:{{ product.price }}</h2>
+            </div>
+        </div>
+            <div class="mt-3 mb-3">
+                
+                <div class="row justify-content-center align-items-center">
+                    <div class="col-3">
+                        <span>數量</span>
+                        <button @click="del(index)" :disabled="quantity<=1">-</button>
+                        <span>{{ quantity }}</span>
+                        <button @click="add(index)" :disabled="quantity>=product.storage">+</button>
+                    </div>
+                    <div class="col-3">
+                        <button @click="PutProducToShoppingCart(memberId, productId, quantity)">加入購物車</button>
+                    </div>
+                        
+                </div>
+            </div>
+        
+    </div>
 </template>
 
 <script>
@@ -61,3 +78,17 @@ export default {
     name: 'app',
 };
 </script>
+<style>
+button{
+    width:  auto;
+    height:  50px;
+    color: #DDA08A;
+    background-color: transparent;
+    border-color: #FFC0AC;
+    border-radius: 10px;
+    font-size: 30px;
+}
+span{
+    size: 30px ;
+}
+</style>

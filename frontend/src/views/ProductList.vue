@@ -1,4 +1,7 @@
 <template>
+<div>
+
+
     <div class="container">
         <h1>商品列表 | 全部商品</h1>
         <hr>
@@ -8,6 +11,7 @@
             <product v-for="item in productArray" :block="item" :key="item.id" ></product>
         </div>
     </div>
+</div>
 </template>
 
 <script>

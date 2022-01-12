@@ -1,5 +1,5 @@
 <template>
-    <div class="row ">
+    <div class="row">
         <div class="col-md-4 mt-6 mx6">
             <button @click="showSelect=0"><span>會員資料</span></button><p></p>
             <button @click="showSelect=1"><span>修改密碼</span></button><p></p>
