@@ -12,18 +12,24 @@
         <div v-for="(itemC, index) in cartArray" :key="index" @change="counter += 1"  class="eachProduct">
             <div v-for="itemP in productArray" :key="itemP.id">
                 <div v-if="itemC.product_id === itemP.id" class="row justify-content-center border">
-                    <div class="col-3 py-custom">
+                    <div class="col-3 py-custom center-align">
                         <div class="row justify-content-center">
                             <img class="img-thumbnail w-50" :src="require('@/assets/'+itemP.product_name+'.png')" />
                             商品名稱：{{ itemP.product_name }}
                         </div>
                     </div>
-                    <div class="col-9 py-custom">
+                    <div class="col-2 py-custom-adjust left-align">
+                        <p>商品編號：</p>
+                        <p>尺寸：</p>
+                        <p>價格：</p>
+                        <p>描述：</p>
+                    </div>
+                    <div class="col-7 py-custom">
                         <ul class="list-group">
-                            <li class="list-group-item">商品編號：{{ itemP.id }}</li>
-                            <li class="list-group-item">尺寸：{{ itemP.size}}</li>
-                            <li class="list-group-item">價格：{{ itemP.price }}</li>
-                            <li class="list-group-item">描述：{{ itemP.description }}</li>
+                            <li class="list-group-item center-align">{{ itemP.id }}</li>
+                            <li class="list-group-item center-align">{{ itemP.size}}</li>
+                            <li class="list-group-item center-align">{{ itemP.price }}</li>
+                            <li class="list-group-item center-align">{{ itemP.description }}</li>
                         </ul>
                         <div class="left-align">
                             <button @click="del(index)" :disabled="quantityArray[index]<=1">-</button>
@@ -138,6 +144,11 @@ export default {
         padding-bottom:55px;
     }
 
+    .py-custom-adjust{
+        padding-top:65px;
+        padding-bottom:55px;
+    }
+
     .mt-custom{
         margin-top:50px;
     }
@@ -158,13 +169,17 @@ export default {
 
     .left-align{
         text-align: right;
+        color: #DDA08A;
     }
 
     .center-align{
         text-align: center;
+        color: #DDA08A;
     }
 
     .right-align{
+        color: #DDA08A;
         text-align: right;
+        font-size: 20px;
     }
 </style>
