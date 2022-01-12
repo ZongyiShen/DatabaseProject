@@ -1,37 +1,29 @@
 <template>
-    
-    <div class="row">
-        <div class="container">
-            <div class="justify-content-center mt-3 mb-3">
-                <h1 style="text-align: center ">{{ product.product_name }}</h1>
-                <h2 style="text-align: center ">尺寸:{{ product.size }}cm</h2>
-                <h2 style="text-align: center ">描述:{{ product.description }}</h2>
-                <h2 style="text-align: center ">價格:{{ product.price }}</h2>
+    <div class="container rounded border-custom mt-3">
+        <div class="row justify-content-center mt-3 mb-3">
+            <product-show v-for="item in product" :block="item" :key="item.id"></product-show>
+        </div>
+        <div class="mt-3 mb-3">
+            <div class="row center-align">
+                <div class="col-6">
+                    <span>數量</span>
+                    <button @click="del(index)" :disabled="quantity<=1">-</button>
+                    <span>{{ quantity }}</span>
+                    <button @click="add(index)" :disabled="quantity>=product.storage">+</button>
+                </div>
+                <div class="col-6">
+                    <button @click="PutProducToShoppingCart(memberId, productId, quantity)">加入購物車</button>
+                </div>
+                    
             </div>
         </div>
-            <div class="mt-3 mb-3">
-                
-                <div class="row justify-content-center align-items-center">
-                    <div class="col-3">
-                        <span>數量</span>
-                        <button @click="del(index)" :disabled="quantity<=1">-</button>
-                        <span>{{ quantity }}</span>
-                        <button @click="add(index)" :disabled="quantity>=product.storage">+</button>
-                    </div>
-                    <div class="col-3">
-                        <button @click="PutProducToShoppingCart(memberId, productId, quantity)">加入購物車</button>
-                    </div>
-                        
-                </div>
-            </div>
-        
     </div>
 </template>
 
 <script>
 import HelloWorldService from '../services/helloworld.service'
 import UserService from '../services/user.service'
-
+import ProductShow from '../components/productShow';
 
 export default {
 
@@ -45,15 +37,21 @@ export default {
     },
     methods: {
         PutProducToShoppingCart(memberId, productId, quantity) {
-            UserService.postShoppingCart(memberId, productId, quantity).then(data =>{
-                if((data.result.status=="成功新增商品。")){
-                    alert("成功添加商品。");
-                    this.$router.push({path: "/cart"});
-                }
-                if((data.result.status =="添加商品失敗")){
-                    alert(data.result.err)
-                }
-            })
+            if(localStorage.getItem("token")){
+                UserService.postShoppingCart(memberId, productId, quantity).then(data =>{
+                    if((data.result.status=="成功新增商品。")){
+                        alert("成功添加商品。");
+                        this.$router.push({path: "/cart"});
+                    }
+                    if((data.result.status =="添加商品失敗")){
+                        alert(data.result.err)
+                    }
+                })
+            }
+            else{
+                alert("請先登入。");
+                this.$router.push({path: "/identify"})
+            }
         },
         add(){
             this.quantity++;
@@ -75,9 +73,13 @@ export default {
         })
         
     },
+    components: {
+        ProductShow,
+    },
     name: 'app',
 };
 </script>
+
 <style>
 button{
     width:  auto;
@@ -89,6 +91,14 @@ button{
     font-size: 30px;
 }
 span{
-    size: 30px ;
+    color: #DDA08A;
+    font-size: 30px ;
+}
+.border-custom{
+    border-style: solid;
+    border-color: #FFC0AC;
+}
+.center-align{
+    text-align: center;
 }
 </style>

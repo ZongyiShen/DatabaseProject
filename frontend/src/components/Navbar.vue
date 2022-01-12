@@ -36,8 +36,8 @@
             <router-link to="/" class="guest" @click="checkLogin()">
                 <img src="../assets/guest_icon.png">
             </router-link>
-            <router-link to="/cart" class="shoppingCart">
-                <img src="../assets/cart_icon.png">
+            <router-link to="/cart" class="shoppingCart" @click="checkLoginBeforeCart()">
+                <img src="../assets/cart_icon.png" >
             </router-link>
         </div>
     </nav>
@@ -50,6 +50,15 @@ export default {
             checkLogin(){
                 if(localStorage.getItem("token")){this.$router.push({path: "/member"});}
                 else{this.$router.push({path: "/identify"});}
+            },
+            checkLoginBeforeCart(){
+                if(localStorage.getItem("token")){
+                    this.$router.push({path: "/cart"});
+                }
+                else{
+                    alert("請先登入");
+                    this.$router.push({path: "/identify"});
+                }
             }
         }
     }

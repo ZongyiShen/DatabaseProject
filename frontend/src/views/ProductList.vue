@@ -1,7 +1,5 @@
 <template>
 <div>
-
-
     <div class="container">
         <h1>商品列表 | 全部商品</h1>
         <hr>
