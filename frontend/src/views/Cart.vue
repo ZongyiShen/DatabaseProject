@@ -4,6 +4,11 @@
         <hr>
     </div>
     <div class="container py-custom rounded border-custom">
+        <div class="container row">
+            <div class="col-12 center-align">
+                <h1>會員ID:{{ userId }}</h1>
+            </div>
+        </div>
         <div v-for="(itemC, index) in cartArray" :key="index" @change="counter += 1"  class="eachProduct">
             <div v-for="itemP in productArray" :key="itemP.id">
                 <div v-if="itemC.product_id === itemP.id" class="row justify-content-center border">
@@ -21,7 +26,6 @@
                             <li class="list-group-item">描述：{{ itemP.description }}</li>
                         </ul>
                         <div class="left-align">
-                        {{ quantityArray }}
                             <button @click="del(index)" :disabled="quantityArray[index]<=1">-</button>
                             產品數量: {{ itemC.quantity }}
                             <button @click="add(index)" :disabled="quantityArray[index]>=itemP.storage">+</button>
@@ -31,13 +35,46 @@
                 </div>
             </div>
         </div>
-        請選擇付款方式:
-        <select>
-            <option>三星</option>
-            <option>蘋果</option>
-            <option>oppo</option>
-        </select>
-        <button></button>
+        <div class="container mt-custom">
+            <div class="row justify-content-center">
+                <div class="col-3 -align">
+                    <div class="container row">
+                        <div class="col-6 right-align">
+                            <span>付款方式:</span>
+                        </div>
+                        <div class="col-6 left-align">
+                            <form class="d-flex" prop="record">
+                                <select>
+                                    <option>信用卡</option>
+                                    <option>貨到付款</option>
+                                    <option>銀行轉帳</option>
+                                </select>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-3 left-align">
+                    {{ arrive_date }}
+                </div>
+                <div class="col-4">
+                    <div class="container">
+                        <div class="container row">
+                            <div class="col-4 right-align">
+                                <span>地址:</span>
+                            </div>
+                            <div class="col-8 left-align">
+                                <form class="d-flex" prop="record">
+                                    <input class="form-control me-2" v-model="address.record">
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-2 left-align">
+                    <button @click="makeOrder(userId, arrive_date, payment_method, address)">送出訂單</button>
+                </div>
+            </div>
+        </div>
     </div>
 </template>
 
@@ -52,16 +89,21 @@ export default {
             cartArray: [],
             ProductArray: [],
             quantityArray:[],
+            address: {
+                record: '',
+            },
+            arrive_date: new Date(),
+            userId: 0,
         }
     },
     methods: {
-        UpdateShoppingCart(memberId, productId, quantity) {
-            UserService.updateShoppingCart(memberId, productId, quantity).then(data =>{
-                if((data.result.status=="購物車資料更新成功。")){
-                    alert("購物車資料更新成功。");
-                    this.$router.go(0);
+        makeOrder(member_id, arrive_date, payment_method, address) {
+            UserService.makeOrder(member_id, arrive_date, payment_method, address).then(data =>{
+                if((data.result.status=="成功建立訂單。")){
+                    alert("成功建立訂單。");
+                    this.$router.push({path: "/member"});
                 }
-                if((data.result.status =="添加商品失敗")){
+                if((data.result.status =="建立訂單失敗")){
                     alert(data.result.err)
                 }
             })
@@ -73,15 +115,10 @@ export default {
             this.$set(this.qauntityArray, index, this.qauntityArray[index]--);
         },
     },
-    watch: {
-        
-    },
     mounted() {
         cartService.getCart().then(data => {
             this.cartArray = data.result;
-            this.cartArray.forEach(item =>
-                this.quantityArray.push(item.quantity)
-            )
+            this.userId = data.result[0].member_id;
         }).catch((error) => {
             console.log("err",error);
         });
@@ -101,6 +138,9 @@ export default {
         padding-bottom:55px;
     }
 
+    .mt-custom{
+        margin-top:50px;
+    }
     .border-custom{
         border-style: solid;
         border-color: #FFC0AC;
@@ -117,6 +157,14 @@ export default {
     }
 
     .left-align{
+        text-align: right;
+    }
+
+    .center-align{
+        text-align: center;
+    }
+
+    .right-align{
         text-align: right;
     }
 </style>
