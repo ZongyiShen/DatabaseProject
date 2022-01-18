@@ -3,8 +3,10 @@ import registerService from '../services/user.service'
 export default {
     register,
     ChangePassword,
+    toCreditCardString,
     logout
 }
+
 
 function register(email, account, phone, password, name){
     registerService.register(email, account, phone, password, name).then(data =>{
@@ -18,6 +20,7 @@ function register(email, account, phone, password, name){
             
     })
 }
+
 function ChangePassword(oldpassword, password){
     registerService.ChangePassword(oldpassword, password).then(data =>{
         if((data.result.status=="會員資料更新成功。")){
@@ -32,6 +35,13 @@ function ChangePassword(oldpassword, password){
         }
     })
 }
+
+function toCreditCardString(product_method){
+    if(product_method == 0) {
+        return "信用卡付款"
+    }
+}
+
 function logout(){
     if(confirm("確定登出?")){
         localStorage.removeItem("token");

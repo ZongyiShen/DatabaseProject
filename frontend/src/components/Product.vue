@@ -1,7 +1,7 @@
 <template>
     <div class="col-lg-4 m-3 p-3 rounded">
-        <div class="row justify-content-center">
-            <img class="productImg" :src="require('@/assets/'+block.product_name+'.png')" />
+        <div class="row center-align">
+            <router-link :to="'/product/'+block.id"><img class="img-fluid" :src="require('@/assets/'+block.product_name+'.png')" /></router-link>
             <div class="container">
                 <div class="row">
                     <div class="col-6">
@@ -53,6 +53,10 @@ export default {
 .item_price::before {
     content: "$";
     font-size: 1rem;
+}
+
+.center-align{
+    text-align: center;
 }
 
 </style>
